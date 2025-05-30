@@ -40,10 +40,15 @@ def recommend(song):
         song_name, artist_name = song.split(" - ")
         index = music[(music['song'] == song_name) & (music['artist'] == artist_name)].index[0]
     except IndexError:
-        error_message = "Song not found, return empty list or you can return a message or raise your own exception"
-        return error_message
+        return "Song not found. Please check the song and artist name."
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
-    distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
+    try:
+        distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
+    except IndexError:
+        return "Similarity data for this song is not available."
+
     recommended_music = []
     for i in distances[1:6]:
         recommended_song = music.iloc[i[0]]
@@ -111,7 +116,6 @@ if st.button('Show Recommendation'):
     if isinstance(result, str):
         st.error(result)
         st.session_state['recommended_music'] = []
-        st.session_state['selected_song_embed_url'] = None
     else:
         st.session_state['recommended_music'] = result
         song_name, artist_name = selected_song.split(" - ")
@@ -126,12 +130,12 @@ if 'selected_song_embed_url' in st.session_state and st.session_state['selected_
 if st.session_state['recommended_music']:
     recommended_music = st.session_state['recommended_music']
     cols = st.columns(5)
-
+    
     for idx, col in enumerate(cols):
         with col:
             st.text(f"{recommended_music[idx]['song']} - {recommended_music[idx]['artist']}")
             st.image(recommended_music[idx]['album_cover_url'])
-
+    
     for rec in recommended_music:
         st.write(f"**{rec['song']} - {rec['artist']}**")
         if rec['embed_url']:
