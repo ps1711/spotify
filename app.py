@@ -47,7 +47,7 @@ def recommend(song):
     try:
         distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
     except IndexError:
-        return "Similarity data for this song is not available."
+        return "App is limited to first 5000 songs"
 
     recommended_music = []
     for i in distances[1:6]:
