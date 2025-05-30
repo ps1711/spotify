@@ -36,8 +36,13 @@ def get_embed_url(song_name, artist_name):
         return None
 
 def recommend(song):
-    song_name, artist_name = song.split(" - ")
-    index = music[(music['song'] == song_name) & (music['artist'] == artist_name)].index[0]
+    try:
+        song_name, artist_name = song.split(" - ")
+        index = music[(music['song'] == song_name) & (music['artist'] == artist_name)].index[0]
+    except IndexError:
+        error_message = "Song not found, return empty list or you can return a message or raise your own exception"
+        return error_message
+
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
     recommended_music = []
     for i in distances[1:6]:
@@ -102,9 +107,15 @@ selected_song = st.selectbox(
 )
 
 if st.button('Show Recommendation'):
-    st.session_state['recommended_music'] = recommend(selected_song)
-    song_name, artist_name = selected_song.split(" - ")
-    st.session_state['selected_song_embed_url'] = get_embed_url(song_name, artist_name)
+    result = recommend(selected_song)
+    if isinstance(result, str):
+        st.error(result)
+        st.session_state['recommended_music'] = []
+        st.session_state['selected_song_embed_url'] = None
+    else:
+        st.session_state['recommended_music'] = result
+        song_name, artist_name = selected_song.split(" - ")
+        st.session_state['selected_song_embed_url'] = get_embed_url(song_name, artist_name)
 
 # Display the selected song's player
 if 'selected_song_embed_url' in st.session_state and st.session_state['selected_song_embed_url']:
@@ -115,12 +126,12 @@ if 'selected_song_embed_url' in st.session_state and st.session_state['selected_
 if st.session_state['recommended_music']:
     recommended_music = st.session_state['recommended_music']
     cols = st.columns(5)
-    
+
     for idx, col in enumerate(cols):
         with col:
             st.text(f"{recommended_music[idx]['song']} - {recommended_music[idx]['artist']}")
             st.image(recommended_music[idx]['album_cover_url'])
-    
+
     for rec in recommended_music:
         st.write(f"**{rec['song']} - {rec['artist']}**")
         if rec['embed_url']:
