@@ -62,11 +62,10 @@ The notebook will generate the necessary pickle files:
 Launch the Streamlit application to use the recommender system in a user-friendly interface:  
 ```bash  
 streamlit run app.py
-My URL:- https://h3pfqbkf8vq7sag7jb7rhp.streamlit.app/
 ```  
 
 ---
-
+My URL:- https://h3pfqbkf8vq7sag7jb7rhp.streamlit.app/
 ## File Structure  
 ```
 📂 spotify-recommender  
