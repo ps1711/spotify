@@ -48,7 +48,7 @@ Place the dataset file (`spotify_millsongdata.csv`) in the project directory.
 
 ### Step 1: Clone the Repository  
 ```bash  
-git clone https://github.com/NikhilKumarSingh4002/spotify-recommender.git  
+git clone https://github.com/ps1711/spotify  
 cd spotify-recommender  
 ```  
 
@@ -61,7 +61,8 @@ The notebook will generate the necessary pickle files:
 ### Step 3: Run the Streamlit App  
 Launch the Streamlit application to use the recommender system in a user-friendly interface:  
 ```bash  
-streamlit run app.py  
+streamlit run app.py
+My URL:- https://h3pfqbkf8vq7sag7jb7rhp.streamlit.app/
 ```  
 
 ---
