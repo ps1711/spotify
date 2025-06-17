@@ -87,7 +87,7 @@ My URL:- https://h3pfqbkf8vq7sag7jb7rhp.streamlit.app/
 ---
 
 ## License  
-This project is licensed under the MIT License.  
+This project is licensed under the MIT License.
 
 ---
 
